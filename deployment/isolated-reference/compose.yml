@@ -1,0 +1,107 @@
+name: industrial-soc-wazuh-41410
+services:
+  cert-generator:
+    image: wazuh/wazuh-certs-generator:0.0.5
+    profiles: [cert-generation]
+    hostname: industrial-soc-wazuh-certs-41410
+    environment:
+      CERT_TOOL_VERSION: "4.14"
+      CERT_TOOL_REPOSITORY: prod
+    volumes:
+      - /private/tmp/industrial-soc-wazuh-41410/certs:/certificates
+      - ./config/certs.yml:/config/certs.yml:ro
+    networks: [isolated]
+
+  indexer:
+    image: wazuh/wazuh-indexer:4.14.10
+    container_name: industrial-soc-wazuh-indexer-41410
+    hostname: wazuh.indexer
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:19201:9200"
+    environment:
+      OPENSEARCH_JAVA_OPTS: "-Xms1g -Xmx1g"
+    ulimits:
+      memlock: {soft: -1, hard: -1}
+      nofile: {soft: 65536, hard: 65536}
+    volumes:
+      - industrial-soc-wazuh-indexer-41410-data:/var/lib/wazuh-indexer
+      - /private/tmp/industrial-soc-wazuh-41410/certs/root-ca-verified-v2.pem:/usr/share/wazuh-indexer/config/certs/root-ca.pem:ro
+      - /private/tmp/industrial-soc-wazuh-41410/certs/wazuh.indexer-loopback-v2-key.pem:/usr/share/wazuh-indexer/config/certs/wazuh.indexer.key:ro
+      - /private/tmp/industrial-soc-wazuh-41410/certs/wazuh.indexer-loopback-v2.pem:/usr/share/wazuh-indexer/config/certs/wazuh.indexer.pem:ro
+      - /private/tmp/industrial-soc-wazuh-41410/certs/admin.pem:/usr/share/wazuh-indexer/config/certs/admin.pem:ro
+      - /private/tmp/industrial-soc-wazuh-41410/certs/admin-key.pem:/usr/share/wazuh-indexer/config/certs/admin-key.pem:ro
+      - /private/tmp/industrial-soc-wazuh-41410/security/internal_users.yml:/usr/share/wazuh-indexer/config/opensearch-security/internal_users.yml:ro
+      - ./config/wazuh.indexer.yml:/usr/share/wazuh-indexer/config/opensearch.yml:ro
+    networks: [isolated]
+
+  manager:
+    image: wazuh/wazuh-manager:4.14.10
+    container_name: industrial-soc-wazuh-manager-41410
+    hostname: wazuh.manager
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:15550:55000"
+    environment:
+      INDEXER_URL: "https://wazuh.indexer:9200"
+      INDEXER_USERNAME: "${MANAGER_INDEXER_USERNAME:?set MANAGER_INDEXER_USERNAME}"
+      INDEXER_PASSWORD: "${INDEXER_ADMIN_PASSWORD:?set INDEXER_ADMIN_PASSWORD}"
+      FILEBEAT_SSL_VERIFICATION_MODE: full
+      SSL_CERTIFICATE_AUTHORITIES: /etc/ssl/root-ca.pem
+      SSL_CERTIFICATE: /etc/ssl/filebeat.pem
+      SSL_KEY: /etc/ssl/filebeat.key
+      API_USERNAME: "${WAZUH_API_USERNAME:?set WAZUH_API_USERNAME}"
+      API_PASSWORD: "${WAZUH_API_PASSWORD:?set WAZUH_API_PASSWORD}"
+    ulimits:
+      memlock: {soft: -1, hard: -1}
+      nofile: {soft: 655360, hard: 655360}
+    volumes:
+      - industrial-soc-wazuh-manager-api-config-41410:/var/ossec/api/configuration
+      - industrial-soc-wazuh-manager-etc-41410:/var/ossec/etc
+      - industrial-soc-wazuh-manager-logs-41410:/var/ossec/logs
+      - industrial-soc-wazuh-manager-queue-41410:/var/ossec/queue
+      - industrial-soc-wazuh-manager-var-multigroups-41410:/var/ossec/var/multigroups
+      - industrial-soc-wazuh-manager-integrations-41410:/var/ossec/integrations
+      - industrial-soc-wazuh-manager-active-response-41410:/var/ossec/active-response/bin
+      - industrial-soc-wazuh-manager-agentless-41410:/var/ossec/agentless
+      - industrial-soc-wazuh-manager-wodles-41410:/var/ossec/wodles
+      - industrial-soc-wazuh-manager-filebeat-etc-41410:/etc/filebeat
+      - industrial-soc-wazuh-manager-filebeat-var-41410:/var/lib/filebeat
+      - /private/tmp/industrial-soc-wazuh-41410/certs/root-ca-verified-v2.pem:/etc/ssl/root-ca.pem:ro
+      - /private/tmp/industrial-soc-wazuh-41410/certs/wazuh.manager.pem:/etc/ssl/filebeat.pem:ro
+      - /private/tmp/industrial-soc-wazuh-41410/certs/wazuh.manager-key.pem:/etc/ssl/filebeat.key:ro
+      - /private/tmp/industrial-soc-wazuh-41410/manager/wazuh_manager.conf:/wazuh-config-mount/etc/ossec.conf:ro
+    networks: [isolated]
+    depends_on:
+      - indexer
+
+networks:
+  isolated:
+    name: industrial-soc-wazuh-41410-net
+    driver: bridge
+
+volumes:
+  industrial-soc-wazuh-indexer-41410-data:
+    name: industrial-soc-wazuh-indexer-41410-data
+  industrial-soc-wazuh-manager-api-config-41410:
+    name: industrial-soc-wazuh-manager-api-config-41410
+  industrial-soc-wazuh-manager-etc-41410:
+    name: industrial-soc-wazuh-manager-etc-41410
+  industrial-soc-wazuh-manager-logs-41410:
+    name: industrial-soc-wazuh-manager-logs-41410
+  industrial-soc-wazuh-manager-queue-41410:
+    name: industrial-soc-wazuh-manager-queue-41410
+  industrial-soc-wazuh-manager-var-multigroups-41410:
+    name: industrial-soc-wazuh-manager-var-multigroups-41410
+  industrial-soc-wazuh-manager-integrations-41410:
+    name: industrial-soc-wazuh-manager-integrations-41410
+  industrial-soc-wazuh-manager-active-response-41410:
+    name: industrial-soc-wazuh-manager-active-response-41410
+  industrial-soc-wazuh-manager-agentless-41410:
+    name: industrial-soc-wazuh-manager-agentless-41410
+  industrial-soc-wazuh-manager-wodles-41410:
+    name: industrial-soc-wazuh-manager-wodles-41410
+  industrial-soc-wazuh-manager-filebeat-etc-41410:
+    name: industrial-soc-wazuh-manager-filebeat-etc-41410
+  industrial-soc-wazuh-manager-filebeat-var-41410:
+    name: industrial-soc-wazuh-manager-filebeat-var-41410

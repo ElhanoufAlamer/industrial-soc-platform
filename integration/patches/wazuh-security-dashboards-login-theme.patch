@@ -1,0 +1,927 @@
+diff --git a/public/apps/login/_index.scss b/public/apps/login/_index.scss
+index 5b48bd9..cbb479c 100644
+--- a/public/apps/login/_index.scss
++++ b/public/apps/login/_index.scss
+@@ -1,25 +1,743 @@
+ /*
+- *   Copyright OpenSearch Contributors
+- *
+- *   Licensed under the Apache License, Version 2.0 (the "License").
+- *   You may not use this file except in compliance with the License.
+- *   A copy of the License is located at
+- *
+- *       http://www.apache.org/licenses/LICENSE-2.0
+- *
+- *   or in the "license" file accompanying this file. This file is distributed
+- *   on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+- *   express or implied. See the License for the specific language governing
+- *   permissions and limitations under the License.
++ * Copyright OpenSearch Contributors
++ * Licensed under the Apache License, Version 2.0.
+  */
+ 
+ .login-wrapper {
+-  margin: 10% auto;
+-  width: 350px;
+-  padding: 1rem;
+-  position: relative;
++  position: fixed !important;
++  inset: 0 !important;
++  left: 0 !important;
++  top: 0 !important;
++  z-index: 99999;
++  display: block;
++  box-sizing: border-box;
++  width: 100vw !important;
++  max-width: 100vw !important;
++  min-width: 100vw !important;
++  height: 100vh;
++  min-height: 100vh;
++  margin: 0;
++  padding: 0;
++  overflow-x: hidden;
++  overflow-y: auto;
++  background: #171522;
++  color: #eeeaf5;
+ }
+ 
+-.btn-login {
++.login-screen {
++  display: grid;
++  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
++  width: 100vw !important;
++  max-width: 100vw !important;
++  min-width: 100vw;
++  min-height: 100vh;
++  background: #171522;
++}
++
++.login-brand-panel {
++  display: flex;
++  flex-direction: column;
++  justify-content: space-between;
++  box-sizing: border-box;
++  min-height: 100vh;
++  padding: 3.5rem 9%;
++  background: #242033;
++  border-right: 1px solid rgba(169, 154, 203, 0.12);
++}
++
++.login-brand-header {
++  display: flex;
++  align-items: center;
++  gap: 1.5rem;
++}
++
++.login-brand-logo {
++  width: 155px;
++  max-width: 45%;
++}
++
++.login-brand-logo img {
++  max-height: 48px;
++  object-fit: contain;
++}
++
++.login-version {
++  padding: 5px 9px;
++  border: 1px solid rgba(169, 154, 203, 0.25);
++  border-radius: 4px;
++  color: #a99acb;
++  font-size: 10px;
++  letter-spacing: 1px;
++}
++
++.login-brand-content {
++  width: 100%;
++  max-width: 560px;
++  min-width: 0;
++  margin: 3rem auto;
++}
++
++.login-eyebrow {
++  color: #8db9ae;
++  font-size: 11px;
++  font-weight: 700;
++  letter-spacing: 1.8px;
++}
++
++.login-headline {
++  max-width: 540px;
++  margin: 1.5rem 0;
++  color: #eeeaf5;
++  font-size: clamp(2.2rem, 3.5vw, 3.5rem);
++  font-weight: 600;
++  line-height: 1.15;
++  letter-spacing: -1.5px;
++}
++
++.login-description {
++  max-width: 440px;
++  color: #a99acb;
++  font-size: 15px;
++  line-height: 1.8;
++}
++
++.login-features {
++  display: grid;
++  gap: 1.2rem;
++  margin: 2.5rem 0 0;
++  padding: 0;
++  color: #d6cee6;
++  font-size: 13px;
++  list-style: none;
++}
++
++.login-features li::before {
++  margin-right: 12px;
++  color: #8db9ae;
++  content: '◇';
++}
++
++.login-brand-footer {
++  display: flex;
++  flex-direction: column;
++  gap: 7px;
++  color: #817995;
++  font-size: 10px;
++  letter-spacing: 0.5px;
++}
++
++.login-form-panel {
++  display: flex;
++  align-items: center;
++  justify-content: center;
++  box-sizing: border-box;
++  min-width: 0;
++  min-height: 100vh;
++  padding: clamp(2rem, 5vw, 5rem);
++  background: #171522;
++}
++
++.login-form-content {
++  width: 100%;
++  max-width: 390px;
++}
++
++.login-welcome {
++  margin-bottom: 2.5rem;
++}
++
++.login-welcome h2 {
++  margin: 1rem 0 0.8rem;
++  color: #eeeaf5;
++  font-size: 34px;
++  font-weight: 600;
++  letter-spacing: -0.8px;
++}
++
++.login-welcome p {
++  color: #a99acb;
++  font-size: 14px;
++  line-height: 1.6;
++}
++
++.login-form {
++  padding: 0;
++  background: transparent;
++}
++
++.login-wrapper .euiFormRow {
++  margin-bottom: 16px;
++}
++
++.login-wrapper .euiFieldText,
++.login-wrapper .euiFieldPassword {
++  min-height: 44px;
++  background: #242033;
++  border: 1px solid rgba(169, 154, 203, 0.3);
++  border-radius: 6px;
++  color: #eeeaf5;
++}
++
++.login-wrapper .euiFieldText::placeholder,
++.login-wrapper .euiFieldPassword::placeholder {
++  color: #a99acb;
++  opacity: 0.8;
++}
++
++.login-wrapper .euiFieldText:focus,
++.login-wrapper .euiFieldPassword:focus {
++  border-color: #8070ad;
++  box-shadow: 0 0 0 1px #8070ad;
++}
++
++.login-wrapper .euiFieldPassword:focus-within {
++  border-color: #8070ad;
++}
++
++.login-wrapper .btn-login {
++  width: 100%;
++  min-height: 44px;
++  border: 1px solid #8070ad !important;
++  border-radius: 6px;
++  background: #8070ad !important;
++  color: #fff !important;
++  font-weight: 600;
++}
++
++.login-wrapper .btn-login:hover,
++.login-wrapper .btn-login:focus {
++  background: #9182bd !important;
++  border-color: #9182bd !important;
++}
++
++.login-wrapper #error {
++  margin-top: 1rem;
++  color: #d98989;
++}
++
++.login-security-note {
++  display: flex;
++  align-items: flex-start;
++  gap: 10px;
++  margin-top: 2rem;
++  padding-top: 1.2rem;
++  border-top: 1px solid rgba(169, 154, 203, 0.18);
++  color: #a99acb;
++  font-size: 11px;
++  line-height: 1.6;
++}
++
++.login-security-note span {
++  color: #8db9ae;
++}
++
++.login-security-note p {
++  margin: 0;
++}
++
++.login-form-footer {
++  margin-top: 3rem;
++  color: #817995;
++  font-size: 10px;
++  text-align: center;
++  letter-spacing: 0.5px;
++}
++
++@media (max-width: 900px) {
++  .login-screen {
++    grid-template-columns: 1fr;
++  }
++
++  .login-brand-panel {
++    min-height: auto;
++    padding: 2rem 8%;
++  }
++
++  .login-brand-content {
++    margin: 3rem 0;
++  }
++
++  .login-headline {
++    font-size: 2.5rem;
++  }
++
++  .login-brand-footer {
++    display: none;
++  }
++
++  .login-form-panel {
++    min-height: auto;
++    padding: 3rem 8%;
++  }
++}
++
++@media (max-width: 480px) {
++  .login-brand-panel {
++    padding: 1.5rem;
++  }
++
++  .login-headline {
++    font-size: 2rem;
++  }
++
++  .login-form-panel {
++    padding: 2rem 1.5rem;
++  }
++
++  .login-welcome h2 {
++    font-size: 28px;
++  }
++}
++
++/* Preserve native EUI input layout while matching the purple theme */
++.login-wrapper .euiFormControlLayout__append {
++  background-color: #242033 !important;
++  border-color: rgba(169, 154, 203, 0.35) !important;
++}
++
++.login-wrapper .euiFormControlLayout__append .euiButtonIcon {
++  background-color: #242033 !important;
++  color: #a99acb !important;
++}
++
++.login-wrapper .euiFormControlLayout__append .euiButtonIcon:hover {
++  background-color: #302a43 !important;
++  color: #eeeaf5 !important;
++}
++
++/* =========================================================
++   INDUSTRIAL SOC — FINAL LOGIN OVERRIDES
++   Wazuh authentication and EUI functionality are preserved.
++   ========================================================= */
++
++.login-wrapper {
++  position: fixed !important;
++  inset: 0 !important;
++  z-index: 99999 !important;
++  width: 100vw !important;
++  height: 100vh !important;
++  min-height: 100vh !important;
++  max-width: none !important;
++  margin: 0 !important;
++  padding: 0 !important;
++  overflow: auto !important;
++  background: #171522 !important;
++  color: #eeeaf5;
++}
++
++.login-screen {
++  display: grid !important;
++  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
++  width: 100% !important;
++  min-width: 0 !important;
++  min-height: 100vh !important;
++  margin: 0 !important;
++  padding: 0 !important;
++  background: #171522 !important;
++}
++
++.login-brand-panel,
++.login-form-panel {
++  box-sizing: border-box !important;
++  width: 100% !important;
++  min-width: 0 !important;
++  min-height: 100vh !important;
++  margin: 0 !important;
++}
++
++.login-brand-panel {
++  display: flex !important;
++  flex-direction: column !important;
++  justify-content: space-between !important;
++  align-items: stretch !important;
++  padding: clamp(32px, 5vw, 76px) clamp(28px, 6vw, 90px) !important;
++  overflow: hidden;
++  background: #242033 !important;
++  border-right: 1px solid rgba(169, 154, 203, 0.16);
++}
++
++.login-brand-header {
++  display: flex !important;
++  flex-wrap: wrap;
++  align-items: center !important;
++  gap: 20px !important;
++  width: 100%;
++}
++
++.login-brand-content {
++  width: 100% !important;
++  max-width: 580px !important;
++  margin: auto !important;
++  padding: 55px 0 !important;
++}
++
++.login-headline {
++  max-width: 560px !important;
++  font-size: clamp(32px, 3.4vw, 54px) !important;
++  line-height: 1.17 !important;
++  letter-spacing: -1.5px !important;
++  overflow-wrap: break-word;
++}
++
++.login-description {
++  max-width: 480px !important;
++  font-size: 15px !important;
++  line-height: 1.8 !important;
++}
++
++.login-features {
++  gap: 18px !important;
++  margin-top: 34px !important;
++}
++
++.login-brand-footer {
+   width: 100%;
++  text-align: center;
++}
++
++.login-form-panel {
++  display: flex !important;
++  align-items: center !important;
++  justify-content: center !important;
++  padding: clamp(28px, 5vw, 80px) !important;
++  background: #171522 !important;
++}
++
++.login-form-content {
++  box-sizing: border-box !important;
++  width: 100% !important;
++  max-width: 440px !important;
++  min-width: 0 !important;
++  margin: 0 auto !important;
++}
++
++.login-welcome {
++  margin-bottom: 42px !important;
++  text-align: left !important;
++}
++
++.login-welcome h2 {
++  margin: 16px 0 12px !important;
++  color: #eeeaf5 !important;
++  font-size: clamp(30px, 3vw, 38px) !important;
++  line-height: 1.2 !important;
++}
++
++.login-welcome p {
++  color: #a99acb !important;
++  font-size: 15px !important;
++  line-height: 1.7 !important;
++}
++
++.login-wrapper .euiForm,
++.login-wrapper .euiFormRow {
++  box-sizing: border-box !important;
++  width: 100% !important;
++  max-width: 100% !important;
++  min-width: 0 !important;
++}
++
++.login-wrapper .euiFormRow {
++  margin-bottom: 16px !important;
++}
++
++.login-wrapper input.euiFieldText,
++.login-wrapper input.euiFieldPassword {
++  box-sizing: border-box !important;
++  width: 100% !important;
++  height: 50px !important;
++  min-height: 50px !important;
++  padding: 0 15px !important;
++  background: #242033 !important;
++  border: 1px solid rgba(169, 154, 203, 0.38) !important;
++  border-radius: 6px !important;
++  color: #eeeaf5 !important;
++  font-size: 14px !important;
++  box-shadow: none !important;
++}
++
++.login-wrapper input.euiFieldText::placeholder,
++.login-wrapper input.euiFieldPassword::placeholder {
++  color: #a99acb !important;
++  opacity: 0.9;
++}
++
++.login-wrapper input.euiFieldText:focus,
++.login-wrapper input.euiFieldPassword:focus {
++  border-color: #8070ad !important;
++  box-shadow: 0 0 0 1px #8070ad !important;
++}
++
++/* Password input: retain EUI's native flex structure */
++.login-wrapper .euiFormControlLayout {
++  display: flex !important;
++  align-items: stretch !important;
++  box-sizing: border-box !important;
++  width: 100% !important;
++  max-width: 100% !important;
++  min-width: 0 !important;
++  min-height: 50px !important;
++  background: transparent !important;
++}
++
++.login-wrapper .euiFormControlLayout__childrenWrapper {
++  flex: 1 1 auto !important;
++  min-width: 0 !important;
++}
++
++.login-wrapper .euiFormControlLayout__childrenWrapper input.euiFieldPassword {
++  height: 50px !important;
++  min-height: 50px !important;
++  border-radius: 6px 0 0 6px !important;
++}
++
++.login-wrapper .euiFormControlLayout__append {
++  display: flex !important;
++  flex: 0 0 50px !important;
++  align-items: center !important;
++  justify-content: center !important;
++  box-sizing: border-box !important;
++  min-height: 50px !important;
++  background: #242033 !important;
++  border: 1px solid rgba(169, 154, 203, 0.38) !important;
++  border-left: 0 !important;
++  border-radius: 0 6px 6px 0 !important;
++}
++
++.login-wrapper .euiFormControlLayout__append button,
++.login-wrapper .euiFormControlLayout__append .euiButtonIcon {
++  width: 100% !important;
++  height: 100% !important;
++  min-height: 48px !important;
++  background: transparent !important;
++  border: 0 !important;
++  color: #a99acb !important;
++}
++
++.login-wrapper .euiFormControlLayout__append button:hover,
++.login-wrapper .euiFormControlLayout__append .euiButtonIcon:hover {
++  background: #302a43 !important;
++  color: #eeeaf5 !important;
++}
++
++.login-wrapper .btn-login {
++  width: 100% !important;
++  min-height: 50px !important;
++  margin-top: 2px !important;
++  border: 1px solid #8070ad !important;
++  border-radius: 6px !important;
++  background: #8070ad !important;
++  color: #fff !important;
++  font-size: 14px !important;
++  font-weight: 600 !important;
++}
++
++.login-wrapper .btn-login:hover,
++.login-wrapper .btn-login:focus {
++  background: #9182bd !important;
++  border-color: #9182bd !important;
++}
++
++.login-security-note {
++  width: 100% !important;
++  margin-top: 36px !important;
++  padding-top: 20px !important;
++}
++
++.login-form-footer {
++  margin-top: 45px !important;
++}
++
++@media (max-width: 900px) {
++  .login-screen {
++    grid-template-columns: 1fr !important;
++  }
++
++  .login-brand-panel {
++    min-height: auto !important;
++    padding: 35px 8% !important;
++  }
++
++  .login-brand-content {
++    margin: 35px 0 !important;
++    padding: 20px 0 !important;
++  }
++
++  .login-brand-footer {
++    display: none !important;
++  }
++
++  .login-form-panel {
++    min-height: auto !important;
++    padding: 55px 8% !important;
++  }
++}
++
++@media (max-width: 480px) {
++  .login-brand-panel {
++    padding: 25px 22px !important;
++  }
++
++  .login-headline {
++    font-size: 32px !important;
++  }
++
++  .login-form-panel {
++    padding: 40px 22px !important;
++  }
++
++  .login-welcome {
++    margin-bottom: 30px !important;
++  }
++}
++
++/* INDUSTRIAL SOC — SAFE LOGIN FIELD THEME */
++
++.login-form-content {
++  width: 100%;
++  max-width: 440px;
++  min-width: 0;
++}
++
++.login-form .ouiFormControlLayout {
++  background-color: #242033;
++  border: 1px solid rgba(169, 154, 203, 0.35);
++  border-radius: 7px;
++  box-shadow: none;
++}
++
++.login-form .ouiFormControlLayout:focus-within {
++  border-color: #8070ad;
++  box-shadow: 0 0 0 1px #8070ad;
++}
++
++.login-form .ouiFieldText,
++.login-form .ouiFieldPassword {
++  color: #eeeaf5;
++  font-size: 14px;
++}
++
++.login-form .ouiFieldText::placeholder,
++.login-form .ouiFieldPassword::placeholder {
++  color: #a99acb;
++  opacity: 0.85;
++}
++
++.login-form .ouiFormRow {
++  margin-bottom: 16px;
++}
++
++.login-form .btn-login {
++  width: 100%;
++  min-height: 48px;
++}
++
++/* INDUSTRIAL SOC — FINAL LOGIN FIELD ALIGNMENT */
++
++.login-form .ouiFormControlLayoutIcons {
++  display: none !important;
++}
++
++.login-form .ouiFieldText,
++.login-form .ouiFieldPassword {
++  padding-left: 16px !important;
++  color: #eeeaf5 !important;
++}
++
++.login-form .ouiFormControlLayout__append .ouiButtonIcon,
++.login-form .ouiFormControlLayout__append .ouiButtonIcon .ouiIcon {
++  color: #a99acb !important;
++}
++
++.login-form .ouiFormControlLayout__append .ouiButtonIcon:hover {
++  color: #eeeaf5 !important;
++}
++
++/* INDUSTRIAL SOC — MATCH PASSWORD FIELD TO USERNAME */
++
++.login-form .ouiFormControlLayout:has(.ouiFieldPassword) {
++  height: 58px;
++  min-height: 58px;
++  box-sizing: border-box;
++  background: #242033;
++  border: 1px solid rgba(169, 154, 203, 0.35);
++  border-radius: 7px;
++  box-shadow: none;
++}
++
++.login-form .ouiFormControlLayout:has(.ouiFieldPassword) .ouiFormControlLayoutIcons {
++  display: none !important;
++}
++
++.login-form .ouiFormControlLayout:has(.ouiFieldPassword) .ouiFieldPassword {
++  height: 56px;
++  min-height: 56px;
++  box-sizing: border-box;
++  padding-left: 16px !important;
++  background: transparent;
++  border: 0;
++  color: #eeeaf5;
++  font-size: 14px;
++}
++
++.login-form .ouiFormControlLayout:has(.ouiFieldPassword) .ouiFormControlLayout__append {
++  height: 56px;
++  display: flex;
++  align-items: center;
++  border-left: 1px solid rgba(169, 154, 203, 0.2);
++}
++
++.login-form .ouiFormControlLayout:has(.ouiFieldPassword):focus-within {
++  border-color: #8070ad;
++  box-shadow: 0 0 0 1px #8070ad;
++}
++
++/* INDUSTRIAL SOC — PASSWORD FIELD DIMENSION MATCH */
++
++.login-form .ouiFormControlLayout:has(.ouiFieldPassword) {
++  width: calc(100% - 44px) !important;
++  max-width: 452px;
++  margin-left: auto !important;
++  margin-right: auto !important;
++  height: 58px !important;
++  min-height: 58px !important;
++  box-sizing: border-box !important;
++  display: flex;
++  align-items: center;
++  overflow: hidden;
++  background: #242033 !important;
++  border: 1px solid rgba(169, 154, 203, 0.35) !important;
++  border-radius: 7px !important;
++}
++
++.login-form .ouiFormControlLayout:has(.ouiFieldPassword) .ouiFormControlLayout__childrenWrapper {
++  flex: 1 1 auto;
++  min-width: 0;
++}
++
++.login-form .ouiFormControlLayout:has(.ouiFieldPassword) .ouiFormControlLayoutIcons {
++  display: none !important;
++}
++
++.login-form .ouiFormControlLayout:has(.ouiFieldPassword) .ouiFieldPassword {
++  width: 100%;
++  height: 56px !important;
++  min-height: 56px !important;
++  padding: 0 16px !important;
++  box-sizing: border-box;
++  border: 0 !important;
++  background: transparent !important;
++}
++
++.login-form .ouiFormControlLayout:has(.ouiFieldPassword) .ouiFormControlLayout__append {
++  flex: 0 0 56px;
++  height: 56px;
++  display: flex;
++  align-items: center;
++  justify-content: center;
++  border-left: 1px solid rgba(169, 154, 203, 0.2);
++}
++
++.login-form .ouiFormControlLayout:has(.ouiFieldPassword) .ouiFormControlLayout__append button {
++  color: #a99acb !important;
+ }
+diff --git a/public/apps/login/login-page.tsx b/public/apps/login/login-page.tsx
+index 79c94e9..c863671 100644
+--- a/public/apps/login/login-page.tsx
++++ b/public/apps/login/login-page.tsx
+@@ -24,7 +24,6 @@ import {
+   EuiForm,
+   EuiCompressedFormRow,
+   EuiHorizontalRule,
+-  EuiCompressedFieldPassword,
+ } from '@elastic/eui';
+ import { CoreStart } from '../../../../../src/core/public';
+ import { ClientConfigType } from '../../types';
+@@ -97,6 +96,7 @@ export function extractNextUrlFromWindowLocation(): string {
+ export function LoginPage(props: LoginPageDeps) {
+   const [username, setUsername] = React.useState('');
+   const [password, setPassword] = React.useState('');
++  const [showPassword, setShowPassword] = React.useState(false);
+   const [loginFailed, setloginFailed] = useState(false);
+   const [loginError, setloginError] = useState('');
+   const [usernameValidationFailed, setUsernameValidationFailed] = useState(false);
+@@ -196,7 +196,7 @@ export function LoginPage(props: LoginPageDeps) {
+                 data-test-subj="user-name"
+                 aria-label="username_input"
+                 placeholder="Username"
+-                icon="user"
++
+                 onChange={(e) => setUsername(e.target.value)}
+                 value={username}
+                 isInvalid={usernameValidationFailed}
+@@ -205,15 +205,25 @@ export function LoginPage(props: LoginPageDeps) {
+           );
+           formBody.push(
+             <EuiCompressedFormRow isInvalid={passwordValidationFailed}>
+-              <EuiCompressedFieldPassword
+-                data-test-subj="password"
+-                aria-label="password_input"
+-                placeholder="Password"
+-                type="dual"
+-                onChange={(e) => setPassword(e.target.value)}
+-                value={password}
+-                isInvalid={usernameValidationFailed}
+-              />
++              <>
++                <EuiCompressedFieldText
++                  data-test-subj="password"
++                  aria-label="password_input"
++                  placeholder="Password"
++                  type={showPassword ? 'text' : 'password'}
++                  onChange={(e) => setPassword(e.target.value)}
++                  value={password}
++                  isInvalid={passwordValidationFailed}
++                />
++                <label className="industrial-show-password">
++                  <input
++                    type="checkbox"
++                    checked={showPassword}
++                    onChange={(e) => setShowPassword(e.target.checked)}
++                  />
++                  <span>Show password</span>
++                </label>
++              </>
+             </EuiCompressedFormRow>
+           );
+           const buttonId = `${AuthType.BASIC}_login_button`;
+@@ -276,30 +286,75 @@ export function LoginPage(props: LoginPageDeps) {
+     return formBody;
+   };
+ 
+-  // TODO: Get brand image from server config
+-  // Don't force custom logo to have 100% width. It should be handled in the svg properties if needed. (Removed fullWidth in the image)
+   return (
+     <EuiListGroup className="login-wrapper">
+-      {props.config.ui.basicauth.login.showbrandimage && (
+-        <EuiImage
+-          size="fullWidth"
+-          alt=""
+-          url={props.config.ui.basicauth.login.brandimage || defaultBrandImage}
+-        />
+-      )}
+-      <EuiSpacer size="s" />
+-      <EuiText size="m" textAlign="center">
+-        {props.config.ui.basicauth.login.title || ''}
+-      </EuiText>
+-      <EuiSpacer size="s" />
+-      <EuiText size="s" textAlign="center">
+-        {props.config.ui.basicauth.login.subtitle || ''}
+-      </EuiText>
+-      <EuiSpacer size="s" />
+-      <EuiForm component="form">
+-        {formOptions(props.config.auth.type)}
+-        {errorLabel}
+-      </EuiForm>
++      <div className="login-screen">
++        <section className="login-brand-panel">
++          <div className="login-brand-header">
++            {props.config.ui.basicauth.login.showbrandimage && (
++              <EuiImage
++                className="login-brand-logo"
++                size="fullWidth"
++                alt="Wazuh"
++                url={props.config.ui.basicauth.login.brandimage || defaultBrandImage}
++              />
++            )}
++            <span className="login-version">INDUSTRIAL SECURITY</span>
++          </div>
++
++          <div className="login-brand-content">
++            <EuiText size="xs" className="login-eyebrow">
++              INDUSTRIAL SECURITY OPERATIONS
++            </EuiText>
++
++            <h1 className="login-headline">
++              Clarity across your control environment.
++            </h1>
++
++            <p className="login-description">
++              One workspace to investigate threats, understand your assets,
++              and protect industrial operations.
++            </p>
++
++            <ul className="login-features">
++              <li>Continuous visibility</li>
++              <li>ICS threat intelligence</li>
++              <li>Accountable operations</li>
++            </ul>
++          </div>
++
++          <div className="login-brand-footer">
++            <span>INDUSTRIAL SECURITY OPERATIONS</span>
++            <span>Security information &amp; event management</span>
++          </div>
++        </section>
++
++        <section className="login-form-panel">
++          <div className="login-form-content">
++            <div className="login-welcome">
++              <EuiText size="xs" className="login-eyebrow">
++                YOUR OPERATIONS WORKSPACE
++              </EuiText>
++              <h2>Welcome back</h2>
++              <p>Sign in to your industrial security console.</p>
++            </div>
++
++            <EuiForm component="form" className="login-form">
++              {formOptions(props.config.auth.type)}
++              {errorLabel}
++            </EuiForm>
++
++            <div className="login-security-note">
++              <span>◇</span>
++              <p>Access is monitored. Authorized personnel only.</p>
++            </div>
++
++            <div className="login-form-footer">
++              Industrial Security Operations
++            </div>
++          </div>
++        </section>
++      </div>
+     </EuiListGroup>
+   );
+ }

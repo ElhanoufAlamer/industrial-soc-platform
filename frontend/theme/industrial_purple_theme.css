@@ -1,0 +1,184 @@
+/* Shared Industrial SOC palette for Wazuh and EUI surfaces. */
+:root {
+  --industrial-bg: #f7f6fb;
+  --industrial-surface: #fff;
+  --industrial-surface-muted: #f1eef8;
+  --industrial-purple: #6554a4;
+  --industrial-purple-strong: #4f407f;
+  --industrial-purple-hover: #7464b2;
+  --industrial-purple-tint: #eeeafb;
+  --industrial-text: #211d2b;
+  --industrial-text-muted: #625e6b;
+  --industrial-border: #ded9e9;
+  --industrial-input: #fff;
+  --industrial-success: #147d62;
+  --industrial-warning: #9a5b00;
+  --industrial-danger: #bd2c00;
+  --industrial-focus: #6554a4;
+  --industrial-space-1: 0.25rem;
+  --industrial-space-2: 0.5rem;
+  --industrial-space-3: 0.75rem;
+  --industrial-space-4: 1rem;
+  --industrial-space-6: 1.5rem;
+  --industrial-space-8: 2rem;
+  --industrial-radius-small: 4px;
+  --industrial-radius-medium: 8px;
+  --industrial-shadow-panel: 0 1px 3px rgb(34 25 55 / 7%);
+}
+
+html,
+body,
+.euiBody,
+.euiBody--dark {
+  background-color: var(--industrial-bg);
+  color: var(--industrial-text);
+}
+
+.euiHeader,
+.euiHeaderSection,
+.euiNavDrawer,
+.euiSideNav,
+.euiSideNav__content,
+.euiCollapsibleNav,
+.euiCollapsibleNavGroup,
+.euiToast,
+.euiGlobalToastList {
+  border-color: var(--industrial-border);
+  background-color: var(--industrial-surface);
+  color: var(--industrial-text);
+}
+
+.euiPage,
+.euiPageBody,
+.euiPageContent,
+.application,
+.application__body {
+  background-color: var(--industrial-bg);
+  color: var(--industrial-text);
+}
+
+.euiPanel,
+.euiCard,
+.euiFlyout,
+.euiModal,
+.euiModalHeader,
+.euiFlyoutHeader,
+.euiPopover__panel,
+.euiContextMenuPanel {
+  border-color: var(--industrial-border);
+  border-radius: var(--industrial-radius-medium);
+  background-color: var(--industrial-surface);
+  color: var(--industrial-text);
+  box-shadow: var(--industrial-shadow-panel);
+}
+
+.euiTitle,
+.euiText,
+.euiFormLabel,
+.euiTable th,
+.euiTable td,
+.euiSideNavItem__label,
+.euiHeaderSectionItem__button {
+  color: var(--industrial-text);
+}
+
+.euiTextColor--subdued,
+.euiFormHelpText,
+.euiTable caption,
+.euiSideNavItemButton__label {
+  color: var(--industrial-text-muted);
+}
+
+.euiLink,
+.euiButtonEmpty--primary,
+.euiSideNavItem__label:hover {
+  color: var(--industrial-purple-strong);
+}
+
+.euiButton--primary,
+.euiButton--accent,
+.euiButton--primary.euiButton--fill {
+  border-color: var(--industrial-purple);
+  background-color: var(--industrial-purple);
+  color: #fff;
+}
+
+.euiButton--primary:hover,
+.euiButton--accent:hover,
+.euiButton--primary:focus-visible,
+.euiButton--accent:focus-visible {
+  border-color: var(--industrial-purple-strong);
+  background-color: var(--industrial-purple-strong);
+}
+
+.euiHeaderSectionItem__button:hover,
+.euiSideNavItemButton:hover {
+  background-color: var(--industrial-purple-tint);
+  color: var(--industrial-purple-strong);
+}
+
+.euiLink:hover {
+  color: var(--industrial-purple-strong);
+  text-decoration: underline;
+}
+
+.euiButton--secondary,
+.euiButtonEmpty--primary {
+  border-color: var(--industrial-border);
+  color: var(--industrial-purple-strong);
+}
+
+.euiFieldText,
+.euiFieldNumber,
+.euiFieldPassword,
+.euiFieldSearch,
+.euiSelect,
+.euiTextArea,
+.euiComboBox .euiComboBox__inputWrap {
+  border-color: var(--industrial-border);
+  background-color: var(--industrial-input);
+  color: var(--industrial-text);
+}
+
+.euiFieldText::placeholder,
+.euiFieldNumber::placeholder,
+.euiFieldPassword::placeholder,
+.euiFieldSearch::placeholder,
+.euiTextArea::placeholder {
+  color: var(--industrial-text-muted);
+}
+
+.euiFieldText:focus,
+.euiFieldNumber:focus,
+.euiFieldPassword:focus,
+.euiFieldSearch:focus,
+.euiSelect:focus,
+.euiTextArea:focus,
+.euiComboBox__inputWrap:focus-within {
+  border-color: var(--industrial-purple);
+  box-shadow: 0 0 0 2px rgb(101 84 164 / 18%);
+}
+
+.euiTable,
+.euiTableHeaderCell,
+.euiTableRow,
+.euiTableRowCell,
+.euiBasicTable {
+  border-color: var(--industrial-border);
+  background-color: var(--industrial-surface);
+  color: var(--industrial-text);
+}
+
+.euiTableRow:hover,
+.euiTableRow-isClickable:hover {
+  background-color: var(--industrial-surface-muted);
+}
+
+.euiHorizontalRule,
+.euiPanel--bordered {
+  border-color: var(--industrial-border);
+}
+
+:focus-visible {
+  outline-color: var(--industrial-focus);
+}

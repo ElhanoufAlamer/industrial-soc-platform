@@ -1,0 +1,128 @@
+diff --git a/plugins/main/.eslintrc.json b/plugins/main/.eslintrc.json
+index 409d54e..5560546 100644
+--- a/plugins/main/.eslintrc.json
++++ b/plugins/main/.eslintrc.json
+@@ -21,7 +21,7 @@
+     "ecmaVersion": "latest",
+     "sourceType": "module"
+   },
+-  "plugins": ["react", "react-hooks", "@typescript-eslint", "filenames-simple"],
++  "plugins": ["react", "react-hooks", "@typescript-eslint", "import", "filenames-simple"],
+   "settings": {
+     "import/resolver": {
+       "typescript": {}
+diff --git a/plugins/main/opensearch_dashboards.json b/plugins/main/opensearch_dashboards.json
+index 0260c10..3841b62 100644
+--- a/plugins/main/opensearch_dashboards.json
++++ b/plugins/main/opensearch_dashboards.json
+@@ -2,7 +2,9 @@
+   "id": "wazuh",
+   "version": "4.14.10-02",
+   "opensearchDashboardsVersion": "opensearchDashboards",
+-  "configPath": ["wazuh"],
++  "configPath": [
++    "wazuh"
++  ],
+   "requiredPlugins": [
+     "navigation",
+     "data",
+@@ -28,4 +30,4 @@
+   ],
+   "server": true,
+   "ui": true
+-}
++}
+\ No newline at end of file
+diff --git a/plugins/main/public/app-router.tsx b/plugins/main/public/app-router.tsx
+index 8f45a6b..f4f2394 100644
+--- a/plugins/main/public/app-router.tsx
++++ b/plugins/main/public/app-router.tsx
+@@ -17,6 +17,7 @@ import { MainEndpointsSummary } from './components/endpoints-summary';
+ import { AgentView } from './components/endpoints-summary/agent';
+ import WzManagement from './controllers/management/components/management/management-provider';
+ import { Overview } from './components/overview/overview';
++import { IndustrialSOC } from './components/industrial-soc/industrial-soc';
+ import { Settings } from './components/settings';
+ import { WzSecurity } from './components/security';
+ import $ from 'jquery';
+@@ -93,6 +94,11 @@ export function Application(props) {
+           exact
+           render={props => <Overview {...props} />}
+         ></Route>
++        <Route
++          path={`/${SECTIONS.INDUSTRIAL_SOC}`}
++          exact
++          render={props => <IndustrialSOC {...props} />}
++        ></Route>
+         <Route path={`/${SECTIONS.SETTINGS}`} exact render={Settings}></Route>
+         <Route path={`/${SECTIONS.SECURITY}`} exact render={WzSecurity}></Route>
+         <Route
+diff --git a/plugins/main/public/sections.ts b/plugins/main/public/sections.ts
+index b7be8d0..1a59312 100644
+--- a/plugins/main/public/sections.ts
++++ b/plugins/main/public/sections.ts
+@@ -2,6 +2,7 @@ export enum SECTIONS {
+   AGENTS = 'agents',
+   AGENTS_PREVIEW = 'agents-preview',
+   HEALTH_CHECK = 'health-check',
++  INDUSTRIAL_SOC = 'industrial-soc',
+   MANAGER = 'manager',
+   OVERVIEW = 'overview',
+   SECURITY = 'security',
+diff --git a/plugins/main/public/utils/applications.ts b/plugins/main/public/utils/applications.ts
+index 8455266..460815b 100644
+--- a/plugins/main/public/utils/applications.ts
++++ b/plugins/main/public/utils/applications.ts
+@@ -863,7 +863,23 @@ const about = {
+   redirectTo: () => '/settings?tab=about',
+ };
+ 
++export const industrialSOC = {
++  category: 'wz-category-industrial-security',
++  id: 'industrial-soc',
++  title: i18n.translate('wz-app-industrial-soc-title', {
++    defaultMessage: 'SOC Overview',
++  }),
++  breadcrumbLabel: 'SOC Overview',
++  description: 'Industrial security monitoring and operational visibility.',
++  euiIconType: 'securityApp',
++  order: 150,
++  showInOverviewApp: false,
++  showInAgentMenu: false,
++  redirectTo: () => '/industrial-soc',
++};
++
+ export const Applications = [
++  industrialSOC,
+   fileIntegrityMonitoring,
+   overview,
+   malwareDetection,
+@@ -922,6 +938,14 @@ export const Categories = [
+     order: 0,
+     euiIconType: 'appSearchApp',
+   },
++  {
++    id: 'wz-category-industrial-security',
++    label: i18n.translate('wz-app-category-industrial-security', {
++      defaultMessage: 'Industrial Security',
++    }),
++    order: 150,
++    euiIconType: 'securityApp',
++  },
+   {
+     id: 'wz-category-endpoint-security',
+     label: i18n.translate('wz-app-category-endpoint-security', {
+diff --git a/plugins/main/server/types.ts b/plugins/main/server/types.ts
+index 2095695..3644839 100644
+--- a/plugins/main/server/types.ts
++++ b/plugins/main/server/types.ts
+@@ -22,6 +22,7 @@ export interface WazuhPluginSetup {}
+ export interface WazuhPluginStart {}
+ 
+ export type PluginSetup = {
+-  securityDashboards?: {}; // TODO: Add OpenSearch Dashboards Security interface
+-  wazuhCore: {};
++  // TODO: Add OpenSearch Dashboards Security interface
++  securityDashboards?: Record<string, unknown>;
++  wazuhCore: Record<string, unknown>;
+ };

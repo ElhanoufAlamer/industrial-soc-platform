@@ -1,0 +1,11 @@
+server.host: "127.0.0.1"
+server.port: 15601
+path.data: "/private/tmp/industrial-soc-wazuh-41410/dashboard-data"
+opensearch.hosts:
+  - "https://127.0.0.1:19201"
+opensearch.ssl.certificateAuthorities:
+  - "/private/tmp/industrial-soc-wazuh-41410/certs/root-ca-verified-v2.pem"
+opensearch.ssl.verificationMode: full
+opensearch.requestHeadersAllowlist: ["securitytenant", "Authorization"]
+opensearchDashboards.index: ".opensearch_dashboards_industrial_soc_wazuh_41410_v4"
+opensearch_security.multitenancy.enabled: false
